@@ -1,7 +1,7 @@
 {
-  "name": "sticky-notes",
+  "name": "calming-sticky-notes",
   "version": "1.0.0",
-  "description": "A sleek, professional, modern looking notes application for Mac",
+  "description": "A beautiful, calming, and minimalist digital sticky notes application for thinkers, dreamers, and doers",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -16,13 +16,18 @@
     "jest": "^29.7.0"
   },
   "dependencies": {
-    "electron-store": "^8.1.0"
+    "electron-store": "^8.1.0",
+    "node-fetch": "^2.6.7",
+    "crypto": "^1.0.1"
   },
   "build": {
-    "appId": "com.stickynotes.app",
+    "appId": "com.calmingstickynotes.app",
+    "productName": "Calming Sticky Notes",
     "mac": {
       "category": "public.app-category.productivity",
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "assets/icons/app-icon.png",
+      "darkModeSupport": true
     },
     "files": [
       "**/*",
@@ -37,6 +42,27 @@
       "!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}",
       "!**/{appveyor.yml,.travis.yml,circle.yml}",
       "!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}"
-    ]
+    ],
+    "dmg": {
+      "background": "assets/dmg-background.png",
+      "icon": "assets/icons/app-icon.png",
+      "iconSize": 100,
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 130,
+          "y": 190
+        },
+        {
+          "x": 410,
+          "y": 190,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
   }
 }

@@ -1,15 +1,15 @@
-/* Animations for Sticky Notes app */
+/* Enhanced animations for Sticky Notes app */
 
-/* Fade in animation */
+/* Soft fade in animation */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* Slide up animation */
+/* Smoother slide up animation */
 @keyframes slideUp {
   from { 
-    transform: translateY(10px);
+    transform: translateY(12px);
     opacity: 0;
   }
   to { 
@@ -18,10 +18,10 @@
   }
 }
 
-/* Slide down animation */
+/* Gentle slide down animation */
 @keyframes slideDown {
   from { 
-    transform: translateY(-10px);
+    transform: translateY(-12px);
     opacity: 0;
   }
   to { 
@@ -30,31 +30,60 @@
   }
 }
 
-/* Pulse animation for buttons */
-@keyframes pulse {
+/* Subtle pulse animation for buttons */
+@keyframes softPulse {
   0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+  50% { transform: scale(1.03); }
   100% { transform: scale(1); }
+}
+
+/* Breathe animation for calm reminders */
+@keyframes breathe {
+  0% { transform: scale(1); opacity: 0.97; }
+  50% { transform: scale(1.01); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.97; }
+}
+
+/* Float animation for cards */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
 }
 
 /* Fade in and slide up animation for the editor */
 .editor-container {
-  animation: slideUp 0.3s ease;
+  animation: slideUp 0.4s ease;
 }
 
 /* Fade in for settings panel */
 .settings-panel {
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn 0.35s ease;
+}
+
+/* Calm hint animation */
+.calm-reminder {
+  animation: breathe 4s ease infinite;
 }
 
 /* Button hover effect */
 .toolbar button:hover,
 .title-bar-controls button:hover,
 .settings-group.buttons button:hover {
-  animation: pulse 0.3s ease;
+  animation: softPulse 0.4s ease;
 }
 
-/* Tooltip animations */
+/* Note list item hover animation */
+.note-item:hover {
+  animation: float 3s ease infinite;
+}
+
+/* Tag appearance animation */
+.tag {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Tooltip animations with improved positioning */
 .tooltip {
   position: relative;
 }
@@ -63,45 +92,44 @@
   content: attr(data-tooltip);
   position: absolute;
   left: 50%;
-  top: -30px; /* Position above the element instead of using bottom property */
+  top: -30px;
   transform: translateX(-50%);
-  background-color: var(--tooltip-bg, rgba(0, 0, 0, 0.8));
-  color: var(--tooltip-color, white);
-  padding: 5px 8px;
-  border-radius: 4px;
+  background-color: var(--editor-bg);
+  color: var(--text-color);
+  padding: 6px 10px;
+  border-radius: 6px;
   font-size: 12px;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateX(-50%) translateY(-5px);
   z-index: 1000;
-  max-width: 200px; /* Limit width to prevent off-screen overflow */
-  text-overflow: ellipsis;
-  overflow: hidden;
-  /* Ensure tooltip stays within viewport */
-  margin-bottom: 5px;
+  max-width: 200px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--border-color);
 }
 
 /* Adjust for settings button position */
 .title-bar-controls .tooltip::after {
-  left: 0;
-  transform: translateX(0) translateY(-5px);
+  left: auto;
+  right: 0;
+  transform: translateY(-5px);
 }
 
 .tooltip:hover::after {
-  opacity: 1;
+  opacity: 0.95;
   transform: translateX(-50%) translateY(0);
 }
 
 /* Adjust for settings button position */
 .title-bar-controls .tooltip:hover::after {
-  transform: translateX(0) translateY(0);
+  transform: translateY(0);
 }
 
 /* Format button animation */
 .format-animation {
-  animation: pulse 0.3s ease;
+  animation: softPulse 0.3s ease;
 }
 
 /* Smooth transitions for theme changes */
@@ -117,17 +145,17 @@ select,
 input,
 button {
   transition: 
-    background-color 0.3s ease,
-    color 0.3s ease,
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
+    background-color 0.4s ease,
+    color 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
 }
 
 /* Window transition effect */
 @keyframes windowIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.97);
   }
   to {
     opacity: 1;
@@ -136,5 +164,119 @@ button {
 }
 
 .app-container {
-  animation: windowIn 0.3s ease;
+  animation: windowIn 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* Calming ripple effect for clicks */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: scale(0);
+  animation: ripple 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* Optimized entrance animation for new elements */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tag typing indicator animation */
+@keyframes typing {
+  0% { opacity: 0.3; }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; }
+}
+
+.tag-typing {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--primary-button-bg);
+  border-radius: 50%;
+  margin-left: 4px;
+  animation: typing 1.5s infinite;
+}
+
+/* Calm loading spinner */
+.calm-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.calm-spinner:before,
+.calm-spinner:after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  animation: pulsOut 1.8s ease-in-out infinite;
+  filter: blur(1px);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.calm-spinner:before {
+  background-color: rgba(var(--primary-button-bg-rgb), 0.2);
+}
+
+.calm-spinner:after {
+  background-color: rgba(var(--primary-button-bg-rgb), 0.6);
+  animation-delay: 0.9s;
+}
+
+@keyframes pulsOut {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* Subtle spotlight effect for focus mode */
+.focus-mode:before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.05) 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.focus-mode:hover:before {
+  opacity: 1;
+}
+
+/* Subtle shift for active buttons */
+button:active {
+  transform: translateY(1px);
 }

@@ -1,3 +1,96 @@
+/* Light Theme (Default) - Renamed to Morning Light */
+body[data-theme="morning-light"] {
+  --background-color: #f8f9fa;
+  --text-color: #212529;
+  --title-bar-bg: #ffffff;
+  --title-color: #212529;
+  --icon-color: #495057;
+  --hover-color: rgba(0, 0, 0, 0.05);
+  --editor-bg: #ffffff;
+  --toolbar-bg: #ffffff;
+  --focus-color: rgba(130, 177, 255, 0.25);
+  --focus-color-light: rgba(130, 177, 255, 0.1);
+  --separator-color: #e9ecef;
+  --label-color: #495057;
+  --border-color: #dee2e6;
+  --input-bg: #ffffff;
+  --secondary-text: #6c757d;
+  --button-bg: #f8f9fa;
+  --button-text: #212529;
+  --primary-button-bg: #82b1ff;
+  --primary-button-text: #ffffff;
+  --active-button-bg: rgba(130, 177, 255, 0.1);
+  --active-button-text: #4285f4;
+  --active-button-shadow: rgba(130, 177, 255, 0.2);
+  --scrollbar-thumb: rgba(0, 0, 0, 0.1);
+  --placeholder-color: #adb5bd;
+  --range-bg: #dee2e6;
+  --tag-bg: #e8f0fe;
+  --tag-text: #4285f4;
+}
+
+/* Twilight Focus Theme */
+body[data-theme="twilight-focus"] {
+  --background-color: #292d3e;
+  --text-color: #d0d6e1;
+  --title-bar-bg: #252837;
+  --title-color: #d0d6e1;
+  --icon-color: #a6accd;
+  --hover-color: rgba(255, 255, 255, 0.07);
+  --editor-bg: #252837;
+  --toolbar-bg: #252837;
+  --focus-color: rgba(199, 146, 234, 0.5);
+  --focus-color-light: rgba(199, 146, 234, 0.2);
+  --separator-color: #3b4252;
+  --label-color: #a6accd;
+  --border-color: #3b4252;
+  --input-bg: #303348;
+  --secondary-text: #8f93a2;
+  --button-bg: #343a40;
+  --button-text: #d0d6e1;
+  --primary-button-bg: #c792ea;
+  --primary-button-text: #252837;
+  --active-button-bg: rgba(199, 146, 234, 0.2);
+  --active-button-text: #c792ea;
+  --active-button-shadow: rgba(199, 146, 234, 0.3);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --placeholder-color: #676e95;
+  --range-bg: #3b4252;
+  --tag-bg: #3a2846;
+  --tag-text: #c792ea;
+}
+
+/* Forest Calm Theme */
+body[data-theme="forest-calm"] {
+  --background-color: #f0f4f0;
+  --text-color: #3c4c3c;
+  --title-bar-bg: #f5f9f5;
+  --title-color: #3c4c3c;
+  --icon-color: #5d6e5d;
+  --hover-color: rgba(93, 110, 93, 0.1);
+  --editor-bg: #f8fcf8;
+  --toolbar-bg: #f5f9f5;
+  --focus-color: rgba(114, 158, 114, 0.4);
+  --focus-color-light: rgba(114, 158, 114, 0.2);
+  --separator-color: #d8e6d8;
+  --label-color: #5d6e5d;
+  --border-color: #d8e6d8;
+  --input-bg: #f8fcf8;
+  --secondary-text: #7a917a;
+  --button-bg: #e8f1e8;
+  --button-text: #3c4c3c;
+  --primary-button-bg: #729e72;
+  --primary-button-text: #f8fcf8;
+  --active-button-bg: rgba(114, 158, 114, 0.2);
+  --active-button-text: #5d8a5d;
+  --active-button-shadow: rgba(114, 158, 114, 0.3);
+  --scrollbar-thumb: rgba(93, 110, 93, 0.2);
+  --placeholder-color: #a8bca8;
+  --range-bg: #d8e6d8;
+  --tag-bg: #dfeadf;
+  --tag-text: #5d8a5d;
+}
+
 /* Light Theme (Default) */
 body[data-theme="light"] {
   --background-color: #f8f9fa;

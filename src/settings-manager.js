@@ -1,6 +1,6 @@
 /**
- * Settings Manager
- * Handles loading, saving, and applying application settings
+ * Enhanced Settings Manager
+ * Handles loading, saving, and applying application settings with additional customization options
  */
 export function initSettingsManager() {
   // DOM elements
@@ -10,14 +10,24 @@ export function initSettingsManager() {
   const fontSizeValue = document.getElementById('font-size-value');
   const opacitySlider = document.getElementById('opacity-slider');
   const opacityValue = document.getElementById('opacity-value');
+  const ultraMinimalToggle = document.getElementById('ultra-minimal-toggle');
+  const offlineModeToggle = document.getElementById('offline-mode-toggle');
+  const calmRemindersToggle = document.getElementById('calm-reminders-toggle');
+  const viewShortcutsBtn = document.getElementById('view-shortcuts-btn');
+  const enableSyncBtn = document.getElementById('enable-sync-btn');
   const editor = document.getElementById('editor');
   
   // Current settings
   let currentSettings = {
-    theme: 'light',
+    theme: 'morning-light',
     font: 'Inter',
     fontSize: 14,
-    opacity: 100
+    opacity: 100,
+    ultraMinimal: false,
+    offlineMode: false,
+    calmReminders: true,
+    syncEnabled: false,
+    customShortcuts: {}
   };
   
   /**
@@ -48,7 +58,12 @@ export function initSettingsManager() {
         theme: themeSelect.value,
         font: fontSelect.value,
         fontSize: parseInt(fontSizeInput.value, 10),
-        opacity: parseInt(opacitySlider.value, 10)
+        opacity: parseInt(opacitySlider.value, 10),
+        ultraMinimal: ultraMinimalToggle.checked,
+        offlineMode: offlineModeToggle.checked,
+        calmReminders: calmRemindersToggle.checked,
+        syncEnabled: currentSettings.syncEnabled,
+        customShortcuts: currentSettings.customShortcuts
       };
       
       // Save settings
@@ -57,6 +72,11 @@ export function initSettingsManager() {
       // Update current settings and apply them
       currentSettings = newSettings;
       applySettings(newSettings);
+      
+      // Notify other modules about settings changes
+      window.dispatchEvent(new CustomEvent('settings-changed', { 
+        detail: { settings: newSettings } 
+      }));
       
       return true;
     } catch (error) {
@@ -83,13 +103,33 @@ export function initSettingsManager() {
     if (settings.opacity !== undefined) {
       window.api.setWindowOpacity(settings.opacity / 100); // Convert percentage to decimal
     }
+    
+    // Apply ultra-minimal mode
+    if (settings.ultraMinimal) {
+      document.body.classList.add('ultra-minimal');
+    } else {
+      document.body.classList.remove('ultra-minimal');
+    }
+    
+    // Apply offline mode
+    if (window.noteManager && typeof window.noteManager.setOfflineMode === 'function') {
+      window.noteManager.setOfflineMode(settings.offlineMode);
+    }
+    
+    // Apply calm reminders setting
+    if (window.noteManager && typeof window.noteManager.scheduleCalmReminders === 'function') {
+      window.noteManager.scheduleCalmReminders(settings.calmReminders);
+    }
+    
+    // Update sync button state
+    updateSyncButtonState(settings.syncEnabled);
   }
   
   /**
    * Populates the settings form with current values
    */
   function populateSettingsForm() {
-    themeSelect.value = currentSettings.theme || 'light';
+    themeSelect.value = currentSettings.theme || 'morning-light';
     fontSelect.value = currentSettings.font || 'Inter';
     fontSizeInput.value = currentSettings.fontSize || 14;
     fontSizeValue.textContent = `${currentSettings.fontSize || 14}px`;
@@ -101,6 +141,132 @@ export function initSettingsManager() {
       opacitySlider.value = 100;
       opacityValue.textContent = '100%';
     }
+    
+    // Set toggle states
+    ultraMinimalToggle.checked = currentSettings.ultraMinimal || false;
+    offlineModeToggle.checked = currentSettings.offlineMode || false;
+    calmRemindersToggle.checked = currentSettings.calmReminders !== false; // true by default
+    
+    // Update sync button state
+    updateSyncButtonState(currentSettings.syncEnabled);
+  }
+  
+  /**
+   * Updates the sync button text and state based on current sync status
+   */
+  function updateSyncButtonState(syncEnabled) {
+    if (syncEnabled) {
+      enableSyncBtn.textContent = 'Sync Enabled';
+      enableSyncBtn.classList.add('active');
+    } else {
+      enableSyncBtn.textContent = 'Enable Secure Sync';
+      enableSyncBtn.classList.remove('active');
+    }
+  }
+  
+  /**
+   * Toggles sync status
+   */
+  async function toggleSync() {
+    try {
+      const newSyncStatus = !currentSettings.syncEnabled;
+      
+      // If enabling sync, show confirmation dialog
+      if (newSyncStatus) {
+        // This would be implemented with a proper dialog
+        const confirmed = confirm(
+          'Enable secure cloud sync? Your notes will be encrypted and synced across devices. No account required.'
+        );
+        
+        if (!confirmed) return false;
+      }
+      
+      // Update sync status
+      currentSettings.syncEnabled = newSyncStatus;
+      
+      // Save settings
+      await window.api.saveSettings(currentSettings);
+      
+      // Update UI
+      updateSyncButtonState(newSyncStatus);
+      
+      // Trigger initial sync if enabled
+      if (newSyncStatus && window.noteManager) {
+        window.noteManager.trySync();
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Error toggling sync:', error);
+      return false;
+    }
+  }
+  
+  /**
+   * Shows the keyboard shortcuts modal
+   */
+  function showShortcutsModal() {
+    const modal = document.getElementById('shortcuts-modal');
+    const backdrop = document.getElementById('dialog-backdrop');
+    
+    if (modal && backdrop) {
+      modal.classList.remove('hidden');
+      backdrop.classList.remove('hidden');
+      
+      // Close on backdrop click
+      backdrop.onclick = () => {
+        modal.classList.add('hidden');
+        backdrop.classList.add('hidden');
+      };
+      
+      // Close on close button click
+      document.getElementById('close-shortcuts').onclick = () => {
+        modal.classList.add('hidden');
+        backdrop.classList.add('hidden');
+      };
+    }
+  }
+  
+  /**
+   * Updates a keyboard shortcut
+   */
+  function updateShortcut(name, keys) {
+    currentSettings.customShortcuts = {
+      ...currentSettings.customShortcuts,
+      [name]: keys
+    };
+    
+    return saveSettings();
+  }
+  
+  /**
+   * Gets a keyboard shortcut
+   */
+  function getShortcut(name) {
+    return currentSettings.customShortcuts[name] || null;
+  }
+  
+  /**
+   * Gets all keyboard shortcuts
+   */
+  function getAllShortcuts() {
+    // Default shortcuts
+    const defaultShortcuts = {
+      newNote: { key: 'n', modifiers: ['meta'] },
+      saveNote: { key: 's', modifiers: ['meta'] },
+      bold: { key: 'b', modifiers: ['meta'] },
+      italic: { key: 'i', modifiers: ['meta'] },
+      underline: { key: 'u', modifiers: ['meta'] },
+      focusMode: { key: 'f', modifiers: ['meta', 'shift'] },
+      toggleSidebar: { key: '\\', modifiers: ['meta'] },
+      search: { key: 'f', modifiers: ['meta'] }
+    };
+    
+    // Override defaults with custom shortcuts
+    return {
+      ...defaultShortcuts,
+      ...currentSettings.customShortcuts
+    };
   }
   
   // Initialize event listeners
@@ -132,6 +298,21 @@ export function initSettingsManager() {
     fontSizeInput.addEventListener('input', () => {
       editor.style.fontSize = `${fontSizeInput.value}px`;
     });
+    
+    // Live preview ultra-minimal mode
+    ultraMinimalToggle.addEventListener('change', () => {
+      if (ultraMinimalToggle.checked) {
+        document.body.classList.add('ultra-minimal');
+      } else {
+        document.body.classList.remove('ultra-minimal');
+      }
+    });
+    
+    // Handle view shortcuts button
+    viewShortcutsBtn.addEventListener('click', showShortcutsModal);
+    
+    // Handle sync button
+    enableSyncBtn.addEventListener('click', toggleSync);
   }
   
   // Initialize
@@ -140,6 +321,11 @@ export function initSettingsManager() {
   return {
     loadSettings,
     saveSettings,
-    populateSettingsForm
+    populateSettingsForm,
+    applySettings,
+    getShortcut,
+    getAllShortcuts,
+    updateShortcut,
+    showShortcutsModal
   };
 }
