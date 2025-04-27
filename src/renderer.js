@@ -1,5 +1,5 @@
-import { initNoteManager } from './noteManager.js';
-import { initSettingsManager } from './settingsManager.js';
+import { initNoteManager } from './note-manager.js';
+import { initSettingsManager } from './settings-manager.js';
 
 // DOM Elements
 const editor = document.getElementById('editor');
@@ -39,6 +39,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   const removeToggleSettingsListener = window.api.onToggleSettings(() => {
     toggleSettingsPanel();
   });
+  
+  // Initialize format state checking
+  initFormatStateChecker();
   
   // Clean up when window is closed
   window.addEventListener('beforeunload', () => {
@@ -84,6 +87,7 @@ function initPasteHandler() {
 // Text formatting function
 function formatText(command, value = null) {
   document.execCommand(command, false, value);
+  updateFormatButtons();
   editor.focus();
 }
 
@@ -139,4 +143,38 @@ function isInList() {
   }
   
   return false;
+}
+
+// Initialize format state checker to update formatting buttons based on selection
+function initFormatStateChecker() {
+  // Update format buttons when selection changes
+  document.addEventListener('selectionchange', () => {
+    if (document.activeElement === editor) {
+      updateFormatButtons();
+    }
+  });
+  
+  // Also update when clicking into the editor
+  editor.addEventListener('click', updateFormatButtons);
+  
+  // Initial update
+  updateFormatButtons();
+}
+
+// Update format buttons state based on current text selection formatting
+function updateFormatButtons() {
+  // Check if bold is active
+  boldBtn.classList.toggle('active', document.queryCommandState('bold'));
+  
+  // Check if italic is active
+  italicBtn.classList.toggle('active', document.queryCommandState('italic'));
+  
+  // Check if underline is active
+  underlineBtn.classList.toggle('active', document.queryCommandState('underline'));
+  
+  // Check if unordered list is active
+  listUlBtn.classList.toggle('active', document.queryCommandState('insertUnorderedList'));
+  
+  // Check if ordered list is active
+  listOlBtn.classList.toggle('active', document.queryCommandState('insertOrderedList'));
 }

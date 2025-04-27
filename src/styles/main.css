@@ -35,17 +35,25 @@ body {
   -webkit-app-region: drag;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
+  position: relative;
 }
 
+/* Centered app title */
 .app-title {
   font-weight: 600;
   font-size: 14px;
   color: var(--title-color);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
 }
 
 .title-bar-controls {
   display: flex;
   -webkit-app-region: no-drag;
+  z-index: 1;
+  margin-left: auto;
 }
 
 .title-bar-controls button {
@@ -119,10 +127,18 @@ body {
   align-items: center;
   justify-content: center;
   margin-right: 4px;
+  transition: all 0.2s ease;
 }
 
 .toolbar button:hover {
   background-color: var(--hover-color);
+}
+
+/* Active format button styling */
+.toolbar button.active {
+  box-shadow: 0 0 5px var(--focus-color);
+  background-color: var(--hover-color);
+  color: var(--primary-button-bg);
 }
 
 .separator {
