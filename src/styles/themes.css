@@ -1,0 +1,109 @@
+/* Light Theme (Default) */
+body[data-theme="light"] {
+  --background-color: #f8f9fa;
+  --text-color: #212529;
+  --title-bar-bg: #e9ecef;
+  --title-color: #212529;
+  --icon-color: #495057;
+  --hover-color: rgba(0, 0, 0, 0.05);
+  --editor-bg: #ffffff;
+  --toolbar-bg: #e9ecef;
+  --focus-color: rgba(13, 110, 253, 0.25);
+  --separator-color: #dee2e6;
+  --label-color: #495057;
+  --border-color: #ced4da;
+  --input-bg: #ffffff;
+  --secondary-text: #6c757d;
+  --button-bg: #f8f9fa;
+  --button-text: #212529;
+  --primary-button-bg: #0d6efd;
+  --primary-button-text: #ffffff;
+}
+
+/* Dark Theme */
+body[data-theme="dark"] {
+  --background-color: #212529;
+  --text-color: #f8f9fa;
+  --title-bar-bg: #343a40;
+  --title-color: #f8f9fa;
+  --icon-color: #adb5bd;
+  --hover-color: rgba(255, 255, 255, 0.1);
+  --editor-bg: #2b3035;
+  --toolbar-bg: #343a40;
+  --focus-color: rgba(13, 110, 253, 0.5);
+  --separator-color: #495057;
+  --label-color: #e9ecef;
+  --border-color: #495057;
+  --input-bg: #343a40;
+  --secondary-text: #adb5bd;
+  --button-bg: #343a40;
+  --button-text: #f8f9fa;
+  --primary-button-bg: #0d6efd;
+  --primary-button-text: #ffffff;
+}
+
+/* Sepia Theme */
+body[data-theme="sepia"] {
+  --background-color: #f5f0e6;
+  --text-color: #5c4b35;
+  --title-bar-bg: #ebe3d5;
+  --title-color: #5c4b35;
+  --icon-color: #8a7865;
+  --hover-color: rgba(140, 120, 100, 0.1);
+  --editor-bg: #faf6f0;
+  --toolbar-bg: #ebe3d5;
+  --focus-color: rgba(180, 150, 90, 0.4);
+  --separator-color: #d6cfc2;
+  --label-color: #5c4b35;
+  --border-color: #d6cfc2;
+  --input-bg: #faf6f0;
+  --secondary-text: #8a7865;
+  --button-bg: #ebe3d5;
+  --button-text: #5c4b35;
+  --primary-button-bg: #b4965a;
+  --primary-button-text: #ffffff;
+}
+
+/* Nord Theme */
+body[data-theme="nord"] {
+  --background-color: #2e3440;
+  --text-color: #eceff4;
+  --title-bar-bg: #3b4252;
+  --title-color: #eceff4;
+  --icon-color: #d8dee9;
+  --hover-color: rgba(236, 239, 244, 0.1);
+  --editor-bg: #3b4252;
+  --toolbar-bg: #3b4252;
+  --focus-color: rgba(143, 188, 187, 0.5);
+  --separator-color: #4c566a;
+  --label-color: #e5e9f0;
+  --border-color: #4c566a;
+  --input-bg: #434c5e;
+  --secondary-text: #d8dee9;
+  --button-bg: #434c5e;
+  --button-text: #e5e9f0;
+  --primary-button-bg: #5e81ac;
+  --primary-button-text: #eceff4;
+}
+
+/* Solarized Theme */
+body[data-theme="solarized"] {
+  --background-color: #fdf6e3;
+  --text-color: #657b83;
+  --title-bar-bg: #eee8d5;
+  --title-color: #586e75;
+  --icon-color: #839496;
+  --hover-color: rgba(101, 123, 131, 0.1);
+  --editor-bg: #fdf6e3;
+  --toolbar-bg: #eee8d5;
+  --focus-color: rgba(38, 139, 210, 0.4);
+  --separator-color: #eee8d5;
+  --label-color: #586e75;
+  --border-color: #eee8d5;
+  --input-bg: #fdf6e3;
+  --secondary-text: #93a1a1;
+  --button-bg: #eee8d5;
+  --button-text: #586e75;
+  --primary-button-bg: #268bd2;
+  --primary-button-text: #fdf6e3;
+}
