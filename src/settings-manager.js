@@ -43,8 +43,11 @@ export function initSettingsManager() {
         };
         applySettings(currentSettings);
       }
+      return currentSettings;
     } catch (error) {
       console.error('Error loading settings:', error);
+      applySettings(currentSettings); // Apply default settings on error
+      return currentSettings;
     }
   }
   
@@ -55,13 +58,13 @@ export function initSettingsManager() {
     try {
       // Get values from form
       const newSettings = {
-        theme: themeSelect.value,
-        font: fontSelect.value,
-        fontSize: parseInt(fontSizeInput.value, 10),
-        opacity: parseInt(opacitySlider.value, 10),
-        ultraMinimal: ultraMinimalToggle.checked,
-        offlineMode: offlineModeToggle.checked,
-        calmReminders: calmRemindersToggle.checked,
+        theme: themeSelect ? themeSelect.value : currentSettings.theme,
+        font: fontSelect ? fontSelect.value : currentSettings.font,
+        fontSize: fontSizeInput ? parseInt(fontSizeInput.value, 10) : currentSettings.fontSize,
+        opacity: opacitySlider ? parseInt(opacitySlider.value, 10) : currentSettings.opacity,
+        ultraMinimal: ultraMinimalToggle ? ultraMinimalToggle.checked : currentSettings.ultraMinimal,
+        offlineMode: offlineModeToggle ? offlineModeToggle.checked : currentSettings.offlineMode,
+        calmReminders: calmRemindersToggle ? calmRemindersToggle.checked : currentSettings.calmReminders,
         syncEnabled: currentSettings.syncEnabled,
         customShortcuts: currentSettings.customShortcuts
       };
@@ -89,15 +92,21 @@ export function initSettingsManager() {
    * Applies the given settings to the UI
    */
   function applySettings(settings) {
+    if (!settings) return;
+    
     // Apply theme
-    document.body.setAttribute('data-theme', settings.theme);
+    document.body.setAttribute('data-theme', settings.theme || 'morning-light');
     
     // Apply font family
-    document.body.style.fontFamily = settings.font;
-    editor.style.fontFamily = settings.font;
+    document.body.style.fontFamily = settings.font || 'Inter';
+    if (editor) {
+      editor.style.fontFamily = settings.font || 'Inter';
+    }
     
     // Apply font size
-    editor.style.fontSize = `${settings.fontSize}px`;
+    if (editor && settings.fontSize) {
+      editor.style.fontSize = `${settings.fontSize}px`;
+    }
     
     // Apply opacity
     if (settings.opacity !== undefined) {
@@ -129,23 +138,27 @@ export function initSettingsManager() {
    * Populates the settings form with current values
    */
   function populateSettingsForm() {
-    themeSelect.value = currentSettings.theme || 'morning-light';
-    fontSelect.value = currentSettings.font || 'Inter';
-    fontSizeInput.value = currentSettings.fontSize || 14;
-    fontSizeValue.textContent = `${currentSettings.fontSize || 14}px`;
+    // Check if elements exist before setting values
+    if (themeSelect) themeSelect.value = currentSettings.theme || 'morning-light';
+    if (fontSelect) fontSelect.value = currentSettings.font || 'Inter';
+    
+    if (fontSizeInput) {
+      fontSizeInput.value = currentSettings.fontSize || 14;
+      if (fontSizeValue) fontSizeValue.textContent = `${currentSettings.fontSize || 14}px`;
+    }
     
     if (opacitySlider && currentSettings.opacity !== undefined) {
       opacitySlider.value = currentSettings.opacity;
-      opacityValue.textContent = `${currentSettings.opacity}%`;
+      if (opacityValue) opacityValue.textContent = `${currentSettings.opacity}%`;
     } else if (opacitySlider) {
       opacitySlider.value = 100;
-      opacityValue.textContent = '100%';
+      if (opacityValue) opacityValue.textContent = '100%';
     }
     
     // Set toggle states
-    ultraMinimalToggle.checked = currentSettings.ultraMinimal || false;
-    offlineModeToggle.checked = currentSettings.offlineMode || false;
-    calmRemindersToggle.checked = currentSettings.calmReminders !== false; // true by default
+    if (ultraMinimalToggle) ultraMinimalToggle.checked = currentSettings.ultraMinimal || false;
+    if (offlineModeToggle) offlineModeToggle.checked = currentSettings.offlineMode || false;
+    if (calmRemindersToggle) calmRemindersToggle.checked = currentSettings.calmReminders !== false; // true by default
     
     // Update sync button state
     updateSyncButtonState(currentSettings.syncEnabled);
@@ -155,6 +168,8 @@ export function initSettingsManager() {
    * Updates the sync button text and state based on current sync status
    */
   function updateSyncButtonState(syncEnabled) {
+    if (!enableSyncBtn) return;
+    
     if (syncEnabled) {
       enableSyncBtn.textContent = 'Sync Enabled';
       enableSyncBtn.classList.add('active');
@@ -220,10 +235,13 @@ export function initSettingsManager() {
       };
       
       // Close on close button click
-      document.getElementById('close-shortcuts').onclick = () => {
-        modal.classList.add('hidden');
-        backdrop.classList.add('hidden');
-      };
+      const closeButton = document.getElementById('close-shortcuts');
+      if (closeButton) {
+        closeButton.onclick = () => {
+          modal.classList.add('hidden');
+          backdrop.classList.add('hidden');
+        };
+      }
     }
   }
   
@@ -272,47 +290,61 @@ export function initSettingsManager() {
   // Initialize event listeners
   function initEventListeners() {
     // Update font size value display when slider changes
-    fontSizeInput.addEventListener('input', () => {
-      fontSizeValue.textContent = `${fontSizeInput.value}px`;
-    });
+    if (fontSizeInput && fontSizeValue) {
+      fontSizeInput.addEventListener('input', () => {
+        fontSizeValue.textContent = `${fontSizeInput.value}px`;
+      });
+    }
     
     // Update opacity value display when slider changes
-    if (opacitySlider) {
+    if (opacitySlider && opacityValue) {
       opacitySlider.addEventListener('input', () => {
         opacityValue.textContent = `${opacitySlider.value}%`;
       });
     }
     
     // Live preview theme changes
-    themeSelect.addEventListener('change', () => {
-      document.body.setAttribute('data-theme', themeSelect.value);
-    });
+    if (themeSelect) {
+      themeSelect.addEventListener('change', () => {
+        document.body.setAttribute('data-theme', themeSelect.value);
+      });
+    }
     
     // Live preview font changes
-    fontSelect.addEventListener('change', () => {
-      document.body.style.fontFamily = fontSelect.value;
-      editor.style.fontFamily = fontSelect.value;
-    });
+    if (fontSelect) {
+      fontSelect.addEventListener('change', () => {
+        document.body.style.fontFamily = fontSelect.value;
+        if (editor) editor.style.fontFamily = fontSelect.value;
+      });
+    }
     
     // Live preview font size changes
-    fontSizeInput.addEventListener('input', () => {
-      editor.style.fontSize = `${fontSizeInput.value}px`;
-    });
+    if (fontSizeInput && editor) {
+      fontSizeInput.addEventListener('input', () => {
+        editor.style.fontSize = `${fontSizeInput.value}px`;
+      });
+    }
     
     // Live preview ultra-minimal mode
-    ultraMinimalToggle.addEventListener('change', () => {
-      if (ultraMinimalToggle.checked) {
-        document.body.classList.add('ultra-minimal');
-      } else {
-        document.body.classList.remove('ultra-minimal');
-      }
-    });
+    if (ultraMinimalToggle) {
+      ultraMinimalToggle.addEventListener('change', () => {
+        if (ultraMinimalToggle.checked) {
+          document.body.classList.add('ultra-minimal');
+        } else {
+          document.body.classList.remove('ultra-minimal');
+        }
+      });
+    }
     
     // Handle view shortcuts button
-    viewShortcutsBtn.addEventListener('click', showShortcutsModal);
+    if (viewShortcutsBtn) {
+      viewShortcutsBtn.addEventListener('click', showShortcutsModal);
+    }
     
     // Handle sync button
-    enableSyncBtn.addEventListener('click', toggleSync);
+    if (enableSyncBtn) {
+      enableSyncBtn.addEventListener('click', toggleSync);
+    }
   }
   
   // Initialize
