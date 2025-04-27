@@ -794,19 +794,19 @@ function setupEventListeners() {
   // Notes sidebar event listeners
   if (notesSidebarBtn) {
     notesSidebarBtn.addEventListener('click', () => {
-      if (notesSidebar) {
-        notesSidebar.classList.toggle('visible');
-      }
+        if (notesSidebar) {
+            notesSidebar.classList.toggle('visible');
+        }
     });
-  }
+}
   
-  if (closeSidebarBtn) {
-    closeSidebarBtn.addEventListener('click', () => {
+if (closeSidebarBtn) {
+  closeSidebarBtn.addEventListener('click', () => {
       if (notesSidebar) {
-        notesSidebar.classList.remove('visible');
+          notesSidebar.classList.remove('visible');
       }
-    });
-  }
+  });
+}
   
   // Share button event listeners
   if (shareBtn) {
