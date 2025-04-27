@@ -239,14 +239,6 @@ ipcMain.handle('set-window-opacity', (event, opacity) => {
   return false;
 });
 
-ipcMain.handle('minimize-to-tray', () => {
-  if (mainWindow) {
-    mainWindow.hide();
-    return true;
-  }
-  return false;
-});
-
 // Function to update the tray menu (for toggle states like "Pin to Top")
 function updateTrayMenu() {
   if (tray && mainWindow) {

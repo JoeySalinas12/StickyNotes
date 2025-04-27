@@ -15,11 +15,8 @@ const listUlBtn = document.getElementById('list-ul-btn');
 const listOlBtn = document.getElementById('list-ol-btn');
 const clearFormattingBtn = document.getElementById('clear-formatting-btn');
 const pinBtn = document.getElementById('pin-btn');
-const minimizeBtn = document.getElementById('minimize-btn');
-const saveIndicator = document.getElementById('save-indicator');
-
 // Initialize modules
-const noteManager = initNoteManager(editor, showSaveIndicator);
+const noteManager = initNoteManager(editor);
 const settingsManager = initSettingsManager();
 
 // Load saved note content and settings
@@ -64,16 +61,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   initTooltips();
 });
 
-// Function to show save indicator
-function showSaveIndicator() {
-  saveIndicator.classList.remove('hidden');
-  
-  // Remove after animation completes
-  setTimeout(() => {
-    saveIndicator.classList.add('hidden');
-  }, 2000);
-}
-
 // Toggle settings panel
 function toggleSettingsPanel() {
   settingsPanel.classList.toggle('hidden');
@@ -91,21 +78,10 @@ async function initPinButton() {
   pinBtn.classList.toggle('active', isAlwaysOnTop);
 }
 
-// Initialize tooltips
+// Initialize tooltips - simplified since we're handling positioning in CSS
 function initTooltips() {
-  const tooltipElements = document.querySelectorAll('.tooltip');
-  
-  tooltipElements.forEach(element => {
-    const tooltipText = element.getAttribute('data-tooltip');
-    if (tooltipText) {
-      // Create tooltip element
-      element.addEventListener('mouseenter', () => {
-        const rect = element.getBoundingClientRect();
-        const tooltipTop = rect.top - 30; // Position above the element
-        const tooltipLeft = rect.left + (rect.width / 2);
-      });
-    }
-  });
+  // Using CSS-only tooltips now, no JavaScript needed
+  // This function remains for future enhancements if needed
 }
 
 // Setup event listeners
@@ -114,7 +90,6 @@ cancelSettingsBtn.addEventListener('click', toggleSettingsPanel);
 saveSettingsBtn.addEventListener('click', async () => {
   await settingsManager.saveSettings();
   toggleSettingsPanel();
-  showSaveIndicator();
 });
 
 // Format button event listeners
@@ -129,11 +104,6 @@ clearFormattingBtn.addEventListener('click', () => formatText('removeFormat'));
 pinBtn.addEventListener('click', async () => {
   const newState = await window.api.toggleAlwaysOnTop();
   pinBtn.classList.toggle('active', newState);
-});
-
-// Minimize button event listener
-minimizeBtn.addEventListener('click', async () => {
-  await window.api.minimizeToTray();
 });
 
 // Handle pasting to strip formatting

@@ -14,7 +14,6 @@ contextBridge.exposeInMainWorld(
     
     // Window Control API
     setWindowOpacity: (opacity) => ipcRenderer.invoke('set-window-opacity', opacity),
-    minimizeToTray: () => ipcRenderer.invoke('minimize-to-tray'),
     
     // Event listeners
     onToggleSettings: (callback) => {
