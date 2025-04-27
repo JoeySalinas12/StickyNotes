@@ -1,0 +1,147 @@
+/* Animations for Sticky Notes app */
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Slide up animation */
+@keyframes slideUp {
+  from { 
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Slide down animation */
+@keyframes slideDown {
+  from { 
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to { 
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Pulse animation for buttons */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Fade in and slide up animation for the editor */
+.editor-container {
+  animation: slideUp 0.3s ease;
+}
+
+/* Fade in for settings panel */
+.settings-panel {
+  animation: fadeIn 0.3s ease;
+}
+
+/* Button hover effect */
+.toolbar button:hover,
+.title-bar-controls button:hover,
+.settings-group.buttons button:hover {
+  animation: pulse 0.3s ease;
+}
+
+/* Tooltip animations */
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  background-color: var(--tooltip-bg, rgba(0, 0, 0, 0.8));
+  color: var(--tooltip-color, white);
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  transform: translateX(-50%) translateY(5px);
+  z-index: 1000;
+}
+
+.tooltip:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Save animation */
+@keyframes saveConfirm {
+  0% { opacity: 0; transform: translateY(10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.save-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--primary-button-bg);
+  color: var(--primary-button-text);
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  animation: saveConfirm 2s ease forwards;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Format button animation */
+.format-animation {
+  animation: pulse 0.3s ease;
+}
+
+/* Smooth transitions for theme changes */
+body,
+.app-container,
+.title-bar,
+.editor,
+.toolbar,
+.settings-panel,
+.toolbar button,
+.title-bar-controls button,
+select,
+input,
+button {
+  transition: 
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* Window transition effect */
+@keyframes windowIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.app-container {
+  animation: windowIn 0.3s ease;
+}

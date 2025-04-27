@@ -2,9 +2,9 @@
  * Note Manager
  * Handles loading, saving, and auto-saving note content
  */
-export function initNoteManager(editorElement) {
+export function initNoteManager(editorElement, saveCallback = null) {
   let autoSaveTimer = null;
-  const AUTO_SAVE_DELAY = 500; // ms
+  const AUTO_SAVE_DELAY = 800; // ms - slightly longer delay for better UX
   
   /**
    * Loads saved note content from storage
@@ -27,6 +27,11 @@ export function initNoteManager(editorElement) {
     try {
       const noteContent = editorElement.innerHTML;
       await window.api.saveNote(noteContent);
+      
+      // Call save callback if provided
+      if (saveCallback && typeof saveCallback === 'function') {
+        saveCallback();
+      }
     } catch (error) {
       console.error('Error saving note:', error);
     }
@@ -36,8 +41,18 @@ export function initNoteManager(editorElement) {
    * Sets up auto-save functionality
    */
   function initAutoSave() {
+    let lastContent = editorElement.innerHTML;
+    
     // Function to handle content changes
     const handleChange = () => {
+      // Only save if content actually changed
+      const currentContent = editorElement.innerHTML;
+      if (currentContent === lastContent) {
+        return;
+      }
+      
+      lastContent = currentContent;
+      
       // Clear any existing timer
       if (autoSaveTimer) {
         clearTimeout(autoSaveTimer);
@@ -61,13 +76,32 @@ export function initNoteManager(editorElement) {
         clearTimeout(autoSaveTimer);
         autoSaveTimer = null;
       }
-      saveNote();
+      
+      // Only save if content changed
+      const currentContent = editorElement.innerHTML;
+      if (currentContent !== lastContent) {
+        lastContent = currentContent;
+        saveNote();
+      }
     });
+  }
+  
+  /**
+   * Explicitly saves the current note content
+   */
+  function forceSave() {
+    if (autoSaveTimer) {
+      clearTimeout(autoSaveTimer);
+      autoSaveTimer = null;
+    }
+    
+    saveNote();
   }
   
   return {
     loadNote,
     saveNote,
-    initAutoSave
+    initAutoSave,
+    forceSave
   };
 }

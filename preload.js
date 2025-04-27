@@ -12,6 +12,10 @@ contextBridge.exposeInMainWorld(
     saveNote: (noteContent) => ipcRenderer.invoke('save-note', noteContent),
     getNote: () => ipcRenderer.invoke('get-note'),
     
+    // Window Control API
+    setWindowOpacity: (opacity) => ipcRenderer.invoke('set-window-opacity', opacity),
+    minimizeToTray: () => ipcRenderer.invoke('minimize-to-tray'),
+    
     // Event listeners
     onToggleSettings: (callback) => {
       ipcRenderer.on('toggle-settings', () => callback());
@@ -22,7 +26,7 @@ contextBridge.exposeInMainWorld(
       };
     },
     
-    // Pin window API - add these two lines
+    // Pin window API
     toggleAlwaysOnTop: () => ipcRenderer.invoke('toggle-always-on-top'),
     getAlwaysOnTopState: () => ipcRenderer.invoke('get-always-on-top-state')
   }
