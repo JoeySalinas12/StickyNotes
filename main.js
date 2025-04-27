@@ -158,3 +158,13 @@ ipcMain.handle('save-note', (event, noteContent) => {
 ipcMain.handle('get-note', () => {
   return store.get('noteContent', '');
 });
+
+ipcMain.handle('toggle-always-on-top', () => {
+  const isAlwaysOnTop = mainWindow.isAlwaysOnTop();
+  mainWindow.setAlwaysOnTop(!isAlwaysOnTop);
+  return !isAlwaysOnTop;
+});
+
+ipcMain.handle('get-always-on-top-state', () => {
+  return mainWindow.isAlwaysOnTop();
+});

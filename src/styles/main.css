@@ -116,6 +116,10 @@ body {
   border-bottom-right-radius: 8px;
 }
 
+.toolbar .right-aligned {
+  margin-left: auto;
+}
+
 .toolbar button {
   background: none;
   border: none;
@@ -145,6 +149,11 @@ body {
   width: 1px;
   background-color: var(--separator-color);
   margin: 0 8px;
+}
+
+.spacer {
+  flex: 1;
+  margin-left: auto;
 }
 
 /* Settings panel */

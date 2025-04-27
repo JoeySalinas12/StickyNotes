@@ -13,6 +13,7 @@ const italicBtn = document.getElementById('italic-btn');
 const underlineBtn = document.getElementById('underline-btn');
 const listUlBtn = document.getElementById('list-ul-btn');
 const listOlBtn = document.getElementById('list-ol-btn');
+const pinBtn = document.getElementById('pin-btn');
 
 // Initialize modules
 const noteManager = initNoteManager(editor);
@@ -34,6 +35,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   // Setup keyboard shortcuts
   setupKeyboardShortcuts();
+
+  // Initialize the pin button state
+  initPinButton();  // Add this line
 
   // Event listener for removing the toggle-settings event
   const removeToggleSettingsListener = window.api.onToggleSettings(() => {
@@ -60,6 +64,12 @@ function toggleSettingsPanel() {
   }
 }
 
+// Force app to stay pinned at the forefront of the desktop
+async function initPinButton() {
+  const isAlwaysOnTop = await window.api.getAlwaysOnTopState();
+  pinBtn.classList.toggle('active', isAlwaysOnTop);
+}
+
 // Setup event listeners
 settingsBtn.addEventListener('click', toggleSettingsPanel);
 cancelSettingsBtn.addEventListener('click', toggleSettingsPanel);
@@ -74,6 +84,12 @@ italicBtn.addEventListener('click', () => formatText('italic'));
 underlineBtn.addEventListener('click', () => formatText('underline'));
 listUlBtn.addEventListener('click', () => formatText('insertUnorderedList'));
 listOlBtn.addEventListener('click', () => formatText('insertOrderedList'));
+
+// Pin button event listener
+pinBtn.addEventListener('click', async () => {
+  const newState = await window.api.toggleAlwaysOnTop();
+  pinBtn.classList.toggle('active', newState);
+});
 
 // Handle pasting to strip formatting
 function initPasteHandler() {

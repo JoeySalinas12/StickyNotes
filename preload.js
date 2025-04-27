@@ -20,6 +20,10 @@ contextBridge.exposeInMainWorld(
       return () => {
         ipcRenderer.removeListener('toggle-settings', callback);
       };
-    }
+    },
+    
+    // Pin window API - add these two lines
+    toggleAlwaysOnTop: () => ipcRenderer.invoke('toggle-always-on-top'),
+    getAlwaysOnTopState: () => ipcRenderer.invoke('get-always-on-top-state')
   }
 );
