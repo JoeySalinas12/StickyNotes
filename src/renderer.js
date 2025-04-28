@@ -19,7 +19,6 @@ const clearFormattingBtn = document.getElementById('clear-formatting-btn');
 const pinBtn = document.getElementById('pin-btn');
 const notesSidebarBtn = document.getElementById('notes-btn');
 const notesSidebar = document.getElementById('notes-sidebar');
-const closeSidebarBtn = document.getElementById('close-sidebar');
 const searchNotesInput = document.getElementById('search-notes');
 const notesList = document.getElementById('notes-list');
 const shareBtn = document.getElementById('share-btn');
@@ -347,6 +346,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   // Initialize API event listeners
   setupApiEventListeners();
+  
+  // Setup the click outside handler for the sidebar
+  setupOutsideClickHandler();
 });
 
 // Initialize notes list sidebar
@@ -426,6 +428,20 @@ function renderNotesList(notes) {
     });
     
     notesList.appendChild(noteItem);
+  });
+}
+
+// Handle clicks outside the sidebar to close it
+function setupOutsideClickHandler() {
+  document.addEventListener('click', (event) => {
+    // Check if sidebar is visible
+    if (notesSidebar && notesSidebar.classList.contains('visible')) {
+      // Check if the click was outside the sidebar and not on the sidebar toggle button
+      if (!notesSidebar.contains(event.target) && 
+          !(notesSidebarBtn && notesSidebarBtn.contains(event.target))) {
+        notesSidebar.classList.remove('visible');
+      }
+    }
   });
 }
 
@@ -793,20 +809,15 @@ function setupEventListeners() {
   
   // Notes sidebar event listeners
   if (notesSidebarBtn) {
-    notesSidebarBtn.addEventListener('click', () => {
-        if (notesSidebar) {
-            notesSidebar.classList.toggle('visible');
-        }
-    });
-}
-  
-if (closeSidebarBtn) {
-  closeSidebarBtn.addEventListener('click', () => {
+    notesSidebarBtn.addEventListener('click', (event) => {
+      // Stop event propagation to prevent the outside click handler from firing
+      event.stopPropagation();
+
       if (notesSidebar) {
-          notesSidebar.classList.remove('visible');
+        notesSidebar.classList.toggle('visible');
       }
-  });
-}
+    });
+  }
   
   // Share button event listeners
   if (shareBtn) {
