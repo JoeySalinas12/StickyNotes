@@ -1,5 +1,6 @@
 import { initNoteManager } from './note-manager.js';
 import { initSettingsManager } from './settings-manager.js';
+import { initMarkdownHandler } from './markdown-handler.js';
 
 // DOM Elements
 const editor = document.getElementById('editor');
@@ -189,6 +190,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   // Initialize auto-save
   window.noteManager.initAutoSave();
+  
+  // Initialize Markdown handler
+  window.markdownHandler = initMarkdownHandler(editor);
   
   // Set up the editor to handle paste events (strip formatting)
   initPasteHandler();

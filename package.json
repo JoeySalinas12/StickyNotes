@@ -1,7 +1,7 @@
 {
-  "name": "minimal-sticky-notes",
+  "name": "markdown-notes",
   "version": "1.0.0",
-  "description": "A beautiful, minimal digital sticky notes application",
+  "description": "A beautiful, minimal notes application with real-time Markdown support",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -17,8 +17,8 @@
     "electron-store": "^8.1.0"
   },
   "build": {
-    "appId": "com.minimalstickynotes.app",
-    "productName": "Minimal Sticky Notes",
+    "appId": "com.markdownnotes.app",
+    "productName": "Markdown Notes",
     "mac": {
       "category": "public.app-category.productivity",
       "target": "dmg",
