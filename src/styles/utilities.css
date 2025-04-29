@@ -224,7 +224,7 @@
   opacity: 1 !important;
 }
 
-/* Animation utilities */
+/* Transition utilities */
 .transition {
   transition: all 0.3s ease !important;
 }
@@ -235,60 +235,4 @@
 
 .transition-slow {
   transition: all 0.5s ease !important;
-}
-
-.rotate-90 {
-  transform: rotate(90deg) !important;
-}
-
-.rotate-180 {
-  transform: rotate(180deg) !important;
-}
-
-.rotate-270 {
-  transform: rotate(270deg) !important;
-}
-
-.scale-90 {
-  transform: scale(0.9) !important;
-}
-
-.scale-110 {
-  transform: scale(1.1) !important;
-}
-
-/* Cursor utilities */
-.cursor-pointer {
-  cursor: pointer !important;
-}
-
-.cursor-text {
-  cursor: text !important;
-}
-
-.cursor-move {
-  cursor: move !important;
-}
-
-.cursor-not-allowed {
-  cursor: not-allowed !important;
-}
-
-/* Overflow utilities */
-.overflow-hidden {
-  overflow: hidden !important;
-}
-
-.overflow-auto {
-  overflow: auto !important;
-}
-
-.overflow-scroll {
-  overflow: scroll !important;
-}
-
-.truncate {
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  white-space: nowrap !important;
 }

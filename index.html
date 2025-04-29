@@ -14,34 +14,11 @@
   <div class="app-container">
     <!-- Title bar -->
     <div class="title-bar">
-      <div class="title-bar-left">
-        <button id="notes-btn" class="tooltip" data-tooltip="All Notes">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-      </div>
-      
       <div class="app-title">Sticky Notes</div>
       
       <div class="title-bar-controls">
-        <button id="share-btn" class="tooltip" data-tooltip="Share Note">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-            <polyline points="16 6 12 2 8 6"></polyline>
-            <line x1="12" y1="2" x2="12" y2="15"></line>
-          </svg>
-        </button>
-        <button id="focus-mode-btn" class="tooltip" data-tooltip="Focus Mode">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"></circle>
-            <circle cx="12" cy="12" r="4"></circle>
-          </svg>
-        </button>
         <button id="settings-btn" class="tooltip" data-tooltip="Settings">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
           </svg>
@@ -53,10 +30,6 @@
     <div class="content-area">
       <!-- Note editor -->
       <div id="editor-container" class="editor-container">
-        <!-- Tag display area -->
-        <div id="tags-display" class="tags-container"></div>
-        
-        <!-- Editor -->
         <div id="editor" class="editor" contenteditable="true"></div>
       </div>
       
@@ -101,250 +74,40 @@
           <span id="opacity-value">100%</span>
         </div>
         
-        <div class="settings-divider"></div>
-        
-        <div class="settings-group">
-          <div class="switch-container">
-            <label for="ultra-minimal-toggle" class="minimalist-label">Ultra-Minimalist Mode:</label>
-            <label class="switch">
-              <input type="checkbox" id="ultra-minimal-toggle">
-              <span class="slider"></span>
-            </label>
-          </div>
-          
-          <div class="switch-container">
-            <label for="offline-mode-toggle">Work Offline:</label>
-            <label class="switch">
-              <input type="checkbox" id="offline-mode-toggle">
-              <span class="slider"></span>
-            </label>
-          </div>
-          
-          <div class="switch-container">
-            <label for="calm-reminders-toggle">Gentle Reminders:</label>
-            <label class="switch">
-              <input type="checkbox" id="calm-reminders-toggle">
-              <span class="slider"></span>
-            </label>
-          </div>
-        </div>
-        
-        <div class="settings-divider"></div>
-        
-        <div class="settings-group">
-          <label>Keyboard Shortcuts:</label>
-          <button id="view-shortcuts-btn" class="secondary-btn">View All Shortcuts</button>
-        </div>
-        
-        <div class="settings-group">
-          <label>Cloud Syncing:</label>
-          <div class="sync-options">
-            <button id="enable-sync-btn" class="secondary-btn">Enable Secure Sync</button>
-            <p class="hint-text">Notes will be securely stored in the cloud. No account required.</p>
-          </div>
-        </div>
-        
         <div class="settings-group buttons">
           <button id="cancel-settings">Cancel</button>
           <button id="save-settings" class="primary">Save</button>
         </div>
       </div>
-      
-      <!-- Share dialog (hidden by default) -->
-      <div id="share-dialog" class="share-dialog hidden">
-        <h3>Share Note</h3>
-        <p>Share this note with others. They can view and collaborate in real-time.</p>
-        
-        <div class="share-link-container">
-          <input type="text" id="share-link" class="share-link" readonly>
-          <button id="copy-link-btn" class="copy-btn">Copy</button>
-        </div>
-        
-        <div class="switch-container">
-          <label for="allow-edit-toggle">Allow Editing:</label>
-          <label class="switch">
-            <input type="checkbox" id="allow-edit-toggle">
-            <span class="slider"></span>
-          </label>
-        </div>
-        
-        <div class="buttons">
-          <button id="cancel-share" class="secondary">Cancel</button>
-          <button id="confirm-share" class="primary">Share</button>
-        </div>
-      </div>
-      
-      <!-- Shortcuts modal (hidden by default) -->
-      <div id="shortcuts-modal" class="shortcuts-modal hidden">
-        <h3>Keyboard Shortcuts</h3>
-        
-        <div class="shortcuts-list">
-          <div class="shortcut-item">
-            <div class="shortcut-description">New note</div>
-            <div class="shortcut-keys">
-              <span class="key">⌘</span><span class="key">N</span>
-            </div>
-          </div>
-          <div class="shortcut-item">
-            <div class="shortcut-description">Save note</div>
-            <div class="shortcut-keys">
-              <span class="key">⌘</span><span class="key">S</span>
-            </div>
-          </div>
-          <div class="shortcut-item">
-            <div class="shortcut-description">Bold text</div>
-            <div class="shortcut-keys">
-              <span class="key">⌘</span><span class="key">B</span>
-            </div>
-          </div>
-          <div class="shortcut-item">
-            <div class="shortcut-description">Italic text</div>
-            <div class="shortcut-keys">
-              <span class="key">⌘</span><span class="key">I</span>
-            </div>
-          </div>
-          <div class="shortcut-item">
-            <div class="shortcut-description">Underline text</div>
-            <div class="shortcut-keys">
-              <span class="key">⌘</span><span class="key">U</span>
-            </div>
-          </div>
-          <div class="shortcut-item">
-            <div class="shortcut-description">Create tag</div>
-            <div class="shortcut-keys">
-              <span class="key">#</span><span class="key">text</span>
-            </div>
-          </div>
-          <div class="shortcut-item">
-            <div class="shortcut-description">Focus mode</div>
-            <div class="shortcut-keys">
-              <span class="key">⌘</span><span class="key">Shift</span><span class="key">F</span>
-            </div>
-          </div>
-          <div class="shortcut-item">
-            <div class="shortcut-description">Toggle sidebar</div>
-            <div class="shortcut-keys">
-              <span class="key">⌘</span><span class="key">\</span>
-            </div>
-          </div>
-          <div class="shortcut-item">
-            <div class="shortcut-description">Search notes</div>
-            <div class="shortcut-keys">
-              <span class="key">⌘</span><span class="key">F</span>
-            </div>
-          </div>
-          <div class="shortcut-item">
-            <div class="shortcut-description">Create heading</div>
-            <div class="shortcut-keys">
-              <span class="key">#</span><span class="key">Space</span>
-            </div>
-          </div>
-        </div>
-        
-        <div class="buttons">
-          <button id="close-shortcuts" class="primary">Close</button>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Notes sidebar (hidden by default) -->
-    <div id="notes-sidebar" class="notes-sidebar">
-      <div class="sidebar-header">
-        <h3>All Notes</h3>
-      </div>
-      
-      <div class="sidebar-search">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-        <input type="text" id="search-notes" placeholder="Search notes...">
-      </div>
-      
-      <div id="notes-list" class="notes-list">
-        <!-- Note items will be dynamically added here -->
-      </div>
-      
-      <div id="sync-status" class="sync-status">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 2v6h-6"></path>
-          <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
-          <path d="M3 22v-6h6"></path>
-          <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
-        </svg>
-        <span>All changes saved locally</span>
-      </div>
-    </div>
-    
-    <!-- Calm reminder (hidden by default) -->
-    <div id="calm-reminder" class="calm-reminder hidden">
-      <button class="close-btn">×</button>
-      <p>Have you reviewed your thoughts from yesterday?</p>
-      <button class="action-btn">Show me</button>
     </div>
     
     <!-- Dialog backdrop (hidden by default) -->
     <div id="dialog-backdrop" class="dialog-backdrop hidden"></div>
     
-    <!-- New note button -->
-    <div id="new-note-btn" class="new-note-btn tooltip" data-tooltip="New Note">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="12" y1="5" x2="12" y2="19"></line>
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-      </svg>
-    </div>
-    
     <!-- Toolbar for formatting -->
     <div class="toolbar">
       <button id="bold-btn" class="tooltip" data-tooltip="Bold (⌘B)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
           <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
         </svg>
       </button>
       <button id="italic-btn" class="tooltip" data-tooltip="Italic (⌘I)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="19" y1="4" x2="10" y2="4"></line>
           <line x1="14" y1="20" x2="5" y2="20"></line>
           <line x1="15" y1="4" x2="9" y2="20"></line>
         </svg>
       </button>
       <button id="underline-btn" class="tooltip" data-tooltip="Underline (⌘U)">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path>
           <line x1="4" y1="21" x2="20" y2="21"></line>
         </svg>
       </button>
       <div class="separator"></div>
-      <button id="list-ul-btn" class="tooltip" data-tooltip="Bullet List">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="8" y1="6" x2="21" y2="6"></line>
-          <line x1="8" y1="12" x2="21" y2="12"></line>
-          <line x1="8" y1="18" x2="21" y2="18"></line>
-          <line x1="3" y1="6" x2="3.01" y2="6"></line>
-          <line x1="3" y1="12" x2="3.01" y2="12"></line>
-          <line x1="3" y1="18" x2="3.01" y2="18"></line>
-        </svg>
-      </button>
-      <button id="list-ol-btn" class="tooltip" data-tooltip="Numbered List">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="10" y1="6" x2="21" y2="6"></line>
-          <line x1="10" y1="12" x2="21" y2="12"></line>
-          <line x1="10" y1="18" x2="21" y2="18"></line>
-          <path d="M4 6h1v4"></path>
-          <path d="M4 10h2"></path>
-          <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path>
-        </svg>
-      </button>
-      <button id="tag-btn" class="tooltip" data-tooltip="Add Tag">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-          <line x1="7" y1="7" x2="7.01" y2="7"></line>
-        </svg>
-      </button>
-      <div class="separator"></div>
       <button id="clear-formatting-btn" class="tooltip" data-tooltip="Clear Formatting">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
           <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
           <path d="M2 2l7.586 7.586"></path>
@@ -352,7 +115,7 @@
         </svg>
       </button>
       <button id="pin-btn" class="right-aligned tooltip" data-tooltip="Keep Window on Top">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2L12 12"></path>
           <path d="M18.3 8.3L12 12 15.7 17.7"></path>
           <path d="M8.3 17.7L12 12 5.7 8.3"></path>

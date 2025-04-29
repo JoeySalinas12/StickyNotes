@@ -1,4 +1,4 @@
-/* Enhanced animations for Sticky Notes app */
+/* Animations for Sticky Notes app */
 
 /* Soft fade in animation */
 @keyframes fadeIn {
@@ -18,37 +18,11 @@
   }
 }
 
-/* Gentle slide down animation */
-@keyframes slideDown {
-  from { 
-    transform: translateY(-12px);
-    opacity: 0;
-  }
-  to { 
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
 /* Subtle pulse animation for buttons */
 @keyframes softPulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.03); }
   100% { transform: scale(1); }
-}
-
-/* Breathe animation for calm reminders */
-@keyframes breathe {
-  0% { transform: scale(1); opacity: 0.97; }
-  50% { transform: scale(1.01); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.97; }
-}
-
-/* Float animation for cards */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-5px); }
-  100% { transform: translateY(0px); }
 }
 
 /* Fade in and slide up animation for the editor */
@@ -61,26 +35,11 @@
   animation: fadeIn 0.35s ease;
 }
 
-/* Calm hint animation */
-.calm-reminder {
-  animation: breathe 4s ease infinite;
-}
-
 /* Button hover effect */
 .toolbar button:hover,
 .title-bar-controls button:hover,
 .settings-group.buttons button:hover {
   animation: softPulse 0.4s ease;
-}
-
-/* Note list item hover animation */
-.note-item:hover {
-  animation: float 3s ease infinite;
-}
-
-/* Tag appearance animation */
-.tag {
-  animation: fadeIn 0.3s ease;
 }
 
 /* Tooltip animations with improved positioning */
@@ -182,98 +141,6 @@ button {
     transform: scale(2.5);
     opacity: 0;
   }
-}
-
-/* Optimized entrance animation for new elements */
-.fade-enter {
-  opacity: 0;
-  transform: translateY(8px);
-}
-
-.fade-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.3s, transform 0.3s;
-}
-
-.fade-exit {
-  opacity: 1;
-}
-
-.fade-exit-active {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-/* Tag typing indicator animation */
-@keyframes typing {
-  0% { opacity: 0.3; }
-  50% { opacity: 1; }
-  100% { opacity: 0.3; }
-}
-
-.tag-typing {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background-color: var(--primary-button-bg);
-  border-radius: 50%;
-  margin-left: 4px;
-  animation: typing 1.5s infinite;
-}
-
-/* Calm loading spinner */
-.calm-spinner {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  position: relative;
-}
-
-.calm-spinner:before,
-.calm-spinner:after {
-  content: '';
-  position: absolute;
-  border-radius: 50%;
-  animation: pulsOut 1.8s ease-in-out infinite;
-  filter: blur(1px);
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-}
-
-.calm-spinner:before {
-  background-color: rgba(var(--primary-button-bg-rgb), 0.2);
-}
-
-.calm-spinner:after {
-  background-color: rgba(var(--primary-button-bg-rgb), 0.6);
-  animation-delay: 0.9s;
-}
-
-@keyframes pulsOut {
-  0% { transform: scale(0); opacity: 1; }
-  100% { transform: scale(1); opacity: 0; }
-}
-
-/* Subtle spotlight effect for focus mode */
-.focus-mode:before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at center, transparent 30%, rgba(0, 0, 0, 0.05) 100%);
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 1s ease;
-}
-
-.focus-mode:hover:before {
-  opacity: 1;
 }
 
 /* Subtle shift for active buttons */

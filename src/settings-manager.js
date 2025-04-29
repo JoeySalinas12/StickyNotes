@@ -1,6 +1,6 @@
 /**
- * Enhanced Settings Manager
- * Handles loading, saving, and applying application settings with additional customization options
+ * Settings Manager
+ * Handles loading, saving, and applying application settings
  */
 export function initSettingsManager() {
   // DOM elements
@@ -10,11 +10,6 @@ export function initSettingsManager() {
   const fontSizeValue = document.getElementById('font-size-value');
   const opacitySlider = document.getElementById('opacity-slider');
   const opacityValue = document.getElementById('opacity-value');
-  const ultraMinimalToggle = document.getElementById('ultra-minimal-toggle');
-  const offlineModeToggle = document.getElementById('offline-mode-toggle');
-  const calmRemindersToggle = document.getElementById('calm-reminders-toggle');
-  const viewShortcutsBtn = document.getElementById('view-shortcuts-btn');
-  const enableSyncBtn = document.getElementById('enable-sync-btn');
   const editor = document.getElementById('editor');
   
   // Current settings
@@ -22,12 +17,7 @@ export function initSettingsManager() {
     theme: 'morning-light',
     font: 'Inter',
     fontSize: 14,
-    opacity: 100,
-    ultraMinimal: false,
-    offlineMode: false,
-    calmReminders: true,
-    syncEnabled: false,
-    customShortcuts: {}
+    opacity: 100
   };
   
   /**
@@ -61,12 +51,7 @@ export function initSettingsManager() {
         theme: themeSelect ? themeSelect.value : currentSettings.theme,
         font: fontSelect ? fontSelect.value : currentSettings.font,
         fontSize: fontSizeInput ? parseInt(fontSizeInput.value, 10) : currentSettings.fontSize,
-        opacity: opacitySlider ? parseInt(opacitySlider.value, 10) : currentSettings.opacity,
-        ultraMinimal: ultraMinimalToggle ? ultraMinimalToggle.checked : currentSettings.ultraMinimal,
-        offlineMode: offlineModeToggle ? offlineModeToggle.checked : currentSettings.offlineMode,
-        calmReminders: calmRemindersToggle ? calmRemindersToggle.checked : currentSettings.calmReminders,
-        syncEnabled: currentSettings.syncEnabled,
-        customShortcuts: currentSettings.customShortcuts
+        opacity: opacitySlider ? parseInt(opacitySlider.value, 10) : currentSettings.opacity
       };
       
       // Save settings
@@ -75,11 +60,6 @@ export function initSettingsManager() {
       // Update current settings and apply them
       currentSettings = newSettings;
       applySettings(newSettings);
-      
-      // Notify other modules about settings changes
-      window.dispatchEvent(new CustomEvent('settings-changed', { 
-        detail: { settings: newSettings } 
-      }));
       
       return true;
     } catch (error) {
@@ -112,26 +92,6 @@ export function initSettingsManager() {
     if (settings.opacity !== undefined) {
       window.api.setWindowOpacity(settings.opacity / 100); // Convert percentage to decimal
     }
-    
-    // Apply ultra-minimal mode
-    if (settings.ultraMinimal) {
-      document.body.classList.add('ultra-minimal');
-    } else {
-      document.body.classList.remove('ultra-minimal');
-    }
-    
-    // Apply offline mode
-    if (window.noteManager && typeof window.noteManager.setOfflineMode === 'function') {
-      window.noteManager.setOfflineMode(settings.offlineMode);
-    }
-    
-    // Apply calm reminders setting
-    if (window.noteManager && typeof window.noteManager.scheduleCalmReminders === 'function') {
-      window.noteManager.scheduleCalmReminders(settings.calmReminders);
-    }
-    
-    // Update sync button state
-    updateSyncButtonState(settings.syncEnabled);
   }
   
   /**
@@ -154,114 +114,6 @@ export function initSettingsManager() {
       opacitySlider.value = 100;
       if (opacityValue) opacityValue.textContent = '100%';
     }
-    
-    // Set toggle states
-    if (ultraMinimalToggle) ultraMinimalToggle.checked = currentSettings.ultraMinimal || false;
-    if (offlineModeToggle) offlineModeToggle.checked = currentSettings.offlineMode || false;
-    if (calmRemindersToggle) calmRemindersToggle.checked = currentSettings.calmReminders !== false; // true by default
-    
-    // Update sync button state
-    updateSyncButtonState(currentSettings.syncEnabled);
-  }
-  
-  /**
-   * Updates the sync button text and state based on current sync status
-   */
-  function updateSyncButtonState(syncEnabled) {
-    if (!enableSyncBtn) return;
-    
-    if (syncEnabled) {
-      enableSyncBtn.textContent = 'Sync Enabled';
-      enableSyncBtn.classList.add('active');
-    } else {
-      enableSyncBtn.textContent = 'Enable Secure Sync';
-      enableSyncBtn.classList.remove('active');
-    }
-  }
-  
-  /**
-   * Toggles sync status
-   */
-  async function toggleSync() {
-    try {
-      const newSyncStatus = !currentSettings.syncEnabled;
-      
-      // If enabling sync, show confirmation dialog
-      if (newSyncStatus) {
-        // This would be implemented with a proper dialog
-        const confirmed = confirm(
-          'Enable secure cloud sync? Your notes will be encrypted and synced across devices. No account required.'
-        );
-        
-        if (!confirmed) return false;
-      }
-      
-      // Update sync status
-      currentSettings.syncEnabled = newSyncStatus;
-      
-      // Save settings
-      await window.api.saveSettings(currentSettings);
-      
-      // Update UI
-      updateSyncButtonState(newSyncStatus);
-      
-      // Trigger initial sync if enabled
-      if (newSyncStatus && window.noteManager) {
-        window.noteManager.trySync();
-      }
-      
-      return true;
-    } catch (error) {
-      console.error('Error toggling sync:', error);
-      return false;
-    }
-  }
-  
-  /**
-   * Shows the keyboard shortcuts modal
-   */
-  function showShortcutsModal() {
-    const modal = document.getElementById('shortcuts-modal');
-    const backdrop = document.getElementById('dialog-backdrop');
-    
-    if (modal && backdrop) {
-      modal.classList.remove('hidden');
-      backdrop.classList.remove('hidden');
-      
-      // Close on backdrop click
-      backdrop.onclick = () => {
-        modal.classList.add('hidden');
-        backdrop.classList.add('hidden');
-      };
-      
-      // Close on close button click
-      const closeButton = document.getElementById('close-shortcuts');
-      if (closeButton) {
-        closeButton.onclick = () => {
-          modal.classList.add('hidden');
-          backdrop.classList.add('hidden');
-        };
-      }
-    }
-  }
-  
-  /**
-   * Updates a keyboard shortcut
-   */
-  function updateShortcut(name, keys) {
-    currentSettings.customShortcuts = {
-      ...currentSettings.customShortcuts,
-      [name]: keys
-    };
-    
-    return saveSettings();
-  }
-  
-  /**
-   * Gets a keyboard shortcut
-   */
-  function getShortcut(name) {
-    return currentSettings.customShortcuts[name] || null;
   }
   
   /**
@@ -269,21 +121,10 @@ export function initSettingsManager() {
    */
   function getAllShortcuts() {
     // Default shortcuts
-    const defaultShortcuts = {
-      newNote: { key: 'n', modifiers: ['meta'] },
-      saveNote: { key: 's', modifiers: ['meta'] },
+    return {
       bold: { key: 'b', modifiers: ['meta'] },
       italic: { key: 'i', modifiers: ['meta'] },
-      underline: { key: 'u', modifiers: ['meta'] },
-      focusMode: { key: 'f', modifiers: ['meta', 'shift'] },
-      toggleSidebar: { key: '\\', modifiers: ['meta'] },
-      search: { key: 'f', modifiers: ['meta'] }
-    };
-    
-    // Override defaults with custom shortcuts
-    return {
-      ...defaultShortcuts,
-      ...currentSettings.customShortcuts
+      underline: { key: 'u', modifiers: ['meta'] }
     };
   }
   
@@ -324,27 +165,6 @@ export function initSettingsManager() {
         editor.style.fontSize = `${fontSizeInput.value}px`;
       });
     }
-    
-    // Live preview ultra-minimal mode
-    if (ultraMinimalToggle) {
-      ultraMinimalToggle.addEventListener('change', () => {
-        if (ultraMinimalToggle.checked) {
-          document.body.classList.add('ultra-minimal');
-        } else {
-          document.body.classList.remove('ultra-minimal');
-        }
-      });
-    }
-    
-    // Handle view shortcuts button
-    if (viewShortcutsBtn) {
-      viewShortcutsBtn.addEventListener('click', showShortcutsModal);
-    }
-    
-    // Handle sync button
-    if (enableSyncBtn) {
-      enableSyncBtn.addEventListener('click', toggleSync);
-    }
   }
   
   // Initialize
@@ -355,9 +175,6 @@ export function initSettingsManager() {
     saveSettings,
     populateSettingsForm,
     applySettings,
-    getShortcut,
-    getAllShortcuts,
-    updateShortcut,
-    showShortcutsModal
+    getAllShortcuts
   };
 }
